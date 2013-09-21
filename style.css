@@ -1,0 +1,79 @@
+body {
+	width: 100%;
+	font-family: 'Arial';
+	height: 500px;
+	margin: auto;
+	cursor: url('cursor.png'), auto;
+}
+
+.welcome-screen {
+	color: teal;
+	font-size: 4em;
+	text-align: center;
+	letter-spacing: -1px;
+	margin: auto;
+	vertical-align: middle;
+	padding-top: 250px;
+	position: relative;
+	font-family: 'Roboto', sans-serif;
+}
+
+.welcome-guest-name,
+.home-catalog,
+.catalog-explorer,
+.catalog-explorer-controls {
+	display: none;
+}
+
+.home-catalog {
+	display: none;
+	width: 1700px;
+	height: 98%;
+}
+
+.catalog-box {
+	width: 180px;
+	height: 180px;
+	background-image: url('test.jpg');
+	float: left;
+	margin: 20px;
+	border-radius: 120px;
+	border: 6px solid teal;
+}
+
+.catalog-box:focus, .catalog-box:hover {
+	cursor: url('click.png'), pointer;
+}
+
+.catalog-explorer img {
+	width: 200px;
+}
+
+.catalog-explorer {
+	background-image: url('rtl.jpg');
+	background-size: cover;
+}
+
+img.no-show {
+	display: none;
+}
+
+.popup-background {
+	z-index: 10;
+	position: fixed;
+	display: none;
+	height: 100%;
+	width: 100%;
+	background: #000000;
+	top: 0px;
+	left: 0px;
+	opacity: 0.8;
+}
+
+.popup-background.show-popup-background {
+	display: block;
+}
+
+.is-zoomed {
+	z-index: 20;
+}
