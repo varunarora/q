@@ -16,15 +16,22 @@ $(document).ready(function(){
 		
 		$('.catalog-explorer').css('height', $(window).height());
 			
-		$('.catalog-explorer-controls').fadeIn('slow');
+		//$('.catalog-explorer-controls').fadeIn('slow');
+		
+		$('.catalog-explorer img').addClass('rotate-image');
 		
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	});
 	
-	$('.catalog-explorer').children().draggable();
-	
+	/*
+	$('.catalog-explorer').children().draggable({
+		start: function(event, ui){
+			$(this).addClass('noclick');
+		}
+	});
+	*/
 	bindZoomButtons();
 });
 
@@ -76,35 +83,38 @@ function bindExplorerItemClick(explorerItem){
 	$(explorerItem).click(function(event){
 		var centerHeight = $(window).height() / 2;
 		var centerWidth = $(window).width() / 2;
-		
+	
 		var originalTop = $(event.target).css('top');
 		var originalLeft = $(event.target).css('left');
-		
+	
 		var currentHeight = $(event.target).height();
 		var currentWidth = $(event.target).width();
 
 		var imageCopy = $('<img/>', {
-        	'src': explorerItem.src,
-        	'class': 'no-show'
-    	});
+	    	'src': explorerItem.src,
+	    	'class': 'no-show'
+		});
 
 		$('body').append(imageCopy);
 
-    	var originalWidthToHeight = imageCopy.width() / imageCopy.height();
+		var originalWidthToHeight = imageCopy.width() / imageCopy.height();
 
 		var finalObjectWidth, finalObjectHeight;
 		if (originalWidthToHeight > 1) {
 			finalObjectWidth = $(window).width() - 50;
 			finalObjectHeight = finalObjectWidth / originalWidthToHeight;
-			
+		
 			if (finalObjectHeight > $(window).height()){
 				finalObjectHeight = $(window).height() - 50;
-				finalObjectWidth = finalObjectHeight * originalWidthToHeight;					
+				finalObjectWidth = finalObjectHeight * originalWidthToHeight;
 			}
 		} else {
 			finalObjectHeight = $(window).height() - 50;
 			finalObjectWidth = finalObjectHeight * originalWidthToHeight;
 		}
+
+		// Rotate back rotated image.
+		$(explorerItem).removeClass('rotate-image');
 
 		$(explorerItem).animate({
 			top: centerHeight - currentHeight,
@@ -120,8 +130,30 @@ function bindExplorerItemClick(explorerItem){
 				height: finalObjectHeight,
 				width: finalObjectWidth
 			}, 800, function(){
-				$(explorerItem).unbind();
+				if ($(explorerItem).hasClass('single-video')){
+					var videoID = $(explorerItem).attr('data-yt-id')
+						iFrame = '<iframe width="640" height="360" src="http://www.youtube-nocookie.com/embed/' + videoID + '" frameborder="0" allowfullscreen></iframe>';
+					$('body').append(iFrame);
+					
+					$('iframe').css({
+						'top': centerHeight - $('iframe').height() / 2,
+						'left': centerWidth - $('iframe').width() / 2,
+						'display': 'block'
+					});
+				}
 				
+				if ($(explorerItem).hasClass('single-document')){
+					$('.three-muscateers-text').css({
+						'top': centerHeight - finalObjectHeight / 2 + 10,
+						'left': centerWidth - finalObjectWidth / 2,
+						'height': finalObjectHeight,
+						'width': finalObjectWidth - 50,
+						'display': 'block'					
+					});
+				}
+			
+				$(explorerItem).unbind();
+			
 				$(explorerItem).click(function(event){
 					closeOpenResource(event, [originalTop, originalLeft],
 						[currentWidth, currentHeight]	
@@ -129,7 +161,12 @@ function bindExplorerItemClick(explorerItem){
 				});
 			});
 		});
+
 	});
+}
+
+function readThreeMuscateers(){
+	speak($('.three-muscateers-text').text());
 }
 
 function closeOpenResource(event, originalPositions, originalSize){
@@ -142,8 +179,10 @@ function closeOpenResource(event, originalPositions, originalSize){
 		width: originalSize[0],
 		height: originalSize[1]
 	}, 1000, function(){
-		console.log($(event.target));
-		$(event.target).draggable();
+		$('iframe').fadeOut('fast');
+		$('.three-muscateers-text').fadeOut('fast');
+		$(event.target).addClass('rotate-image');
+		
 		bindExplorerItemClick(event.target);
 	});
 	

@@ -47,10 +47,47 @@ body {
 
 .catalog-explorer img {
 	width: 200px;
+	border: 5px solid #fff;
+	-webkit-transition: transform 3s ease-in-out;
+	-moz-transition: transform 3s ease-in-out;
+	-o-transition: transform 3s ease-in-out;
+	transition: transform 3s ease-in-out;
+
+	position: absolute;
+
+	box-shadow: 0px 0px 6px #333;
+}
+
+img.single-image {
+	left: 20px;
+	top: 20px;
+}
+
+img.single-video {
+	left: 20px;
+	top: 500px;
+}
+
+img.single-document {
+	left: 1000px;
+	top: 20px;
+}
+
+img.single-video.rotate-image {
+	transform: rotate(12deg);
+}
+
+img.single-document.rotate-image {
+	transform: rotate(12deg);
+}
+
+.rotate-image {
+	transform: rotate(-7deg);
+	width: 250px;
 }
 
 .catalog-explorer {
-	background-image: url('rtl.jpg');
+	background-image: url('wood.jpg');
 	background-size: cover;
 }
 
@@ -61,19 +98,40 @@ img.no-show {
 .popup-background {
 	z-index: 10;
 	position: fixed;
-	display: none;
 	height: 100%;
+	display: none;
 	width: 100%;
 	background: #000000;
 	top: 0px;
 	left: 0px;
-	opacity: 0.8;
+	opacity: 0;
+	
+	-webkit-transition: opacity 1.5s ease-in-out;
+	-moz-transition: opacity 1.5s ease-in-out;
+	-o-transition: opacity 1.5s ease-in-out;
+	transition: opacity 1.5s ease-in-out;	
 }
 
 .popup-background.show-popup-background {
+	opacity: 0.8;
 	display: block;
 }
 
 .is-zoomed {
 	z-index: 20;
+}
+
+iframe {
+	z-index: 25;
+	position: absolute;
+}
+
+.three-muscateers-text {
+	font-family: 'Georgia', serif;
+	display: none;
+	position: absolute;
+	line-height: 2em; 
+	z-index: 25;
+	background-color: #fff;
+	padding: 40px;
 }
